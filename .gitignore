@@ -19,6 +19,8 @@ package-lock.json
 *.log
 *.gz
 
+# project-specific
+#data-scrape.json
 
 # Coveralls
 coverage

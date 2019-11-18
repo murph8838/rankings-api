@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/start.js",
-    "start:dev": "nodemon ./bin/start.js"
+    "start:dev": "nodemon ./bin/start.js",
+    "scrape-data": "node ./bin/pullRankings.js"
   },
   "dependencies": {
     "bluebird": "^3.7.1",
