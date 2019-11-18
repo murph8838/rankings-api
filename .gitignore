@@ -20,7 +20,7 @@ package-lock.json
 *.gz
 
 # project-specific
-#data-scrape.json
+data-scrape.json
 
 # Coveralls
 coverage
