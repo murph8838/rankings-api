@@ -16,24 +16,11 @@ const getRankings = function(position, scoring = '', sortBy = '') {
     }
 }
 
-const getPlayer = function(player) {
-    // filter matches to the player name query param
-    // if (opts.playerName) {
-    //     let filtered = {};
-    //     // convert name filter to lower, and strip out any non-alpha chars
-    //     const playerFilter = opts.playerName.toLowerCase().replace(/^\w/g, '');
-    //     console.log('playerFilter: ', playerFilter);
-    //     Object.keys(rankings).forEach(key => {
-    //         rankings[key] = rankings[key].filter(r => {
-    //             const comparableName = r.player.toLowerCase().replace(/^\w/g, '');
-    //             console.log('comparableName: ', comparableName);
-    //             return comparableName.includes(playerFilter);
-    //         })
-    //     });
-    // }
+const getPlayer = function(player, scoring) {
+    // convert name filter to lower, and strip out any non-alpha chars
+    const p = player.toLowerCase().replace(/^\w/g, '');
+    return db.getPlayerRankings(p, scoring);
 }
 
-exports = {
-    getRankings,
-    getPlayer
-};
+exports.getRankings =  getRankings;
+exports.getPlayer = getPlayer;

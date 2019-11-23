@@ -9,7 +9,7 @@ const sortEnum = [
     'consensus',
 ];
 
-exports.getQbRankings = function(scoring = '', sortBy = '') {
+const getQbRankings = function (scoring = '', sortBy = '') {
     const qbRankings = {};
     if (scoring === '4pt') {
         qbRankings.qb4pt = db.qb4pt;
@@ -30,7 +30,7 @@ exports.getQbRankings = function(scoring = '', sortBy = '') {
     return qbRankings;
 }
 
-exports.getRbRankings = function(scoring = '', sortBy = '') {
+const getRbRankings = function (scoring = '', sortBy = '') {
     const rbRankings = {};
     if (scoring === 'halfPpr') {
         rbRankings.rbHalfPpr = db.rbHalfPpr;
@@ -52,7 +52,7 @@ exports.getRbRankings = function(scoring = '', sortBy = '') {
     return rbRankings;
 }
 
-exports.getWrRankings = function(scoring = '', sortBy = '') {
+const getWrRankings = function (scoring = '', sortBy = '') {
     const wrRankings = {};
     if (scoring === 'halfPpr') {
         wrRankings.wrHalfPpr = db.wrHalfPpr;
@@ -74,7 +74,7 @@ exports.getWrRankings = function(scoring = '', sortBy = '') {
     return wrRankings;
 }
 
-exports.getTeRankings = function(scoring = '', sortBy = '') {
+const getTeRankings = function (scoring = '', sortBy = '') {
     const teRankings = {};
     if (scoring === 'halfPpr') {
         teRankings.teHalfPpr = db.teHalfPpr;
@@ -96,9 +96,28 @@ exports.getTeRankings = function(scoring = '', sortBy = '') {
     return teRankings;
 }
 
+const getPlayerRankings = function (player, scoring = '') {
+    const rankings = db;
+    let filteredRankings = {};
+
+    Object.keys(rankings).forEach(key => {
+        const s = key.slice().slice(2);
+        if (!scoring || s.toLowerCase() === scoring.toLowerCase()) {
+            filteredRankings[key] = rankings[key].filter((r) => {
+                const reducedName = r.name.toLowerCase().replace(/^\w/g, '');
+                return reducedName.includes(player);
+            });
+
+            sortRankings(filteredRankings, 'consensus');
+        }
+    });
+
+    return filteredRankings;
+}
+
 function sortRankings(rankings, sortBy) {
     Object.keys(rankings).forEach(key => {
-        rankings[key].sort((a,b) => {
+        rankings[key].sort((a, b) => {
             if (parseInt(a[sortBy]) > parseInt(b[sortBy])) {
                 return 1;
             } else if (parseInt(a[sortBy]) < parseInt(b[sortBy])) {
@@ -108,3 +127,9 @@ function sortRankings(rankings, sortBy) {
         })
     });
 }
+
+exports.getQbRankings = getQbRankings;
+exports.getRbRankings = getRbRankings;
+exports.getWrRankings = getWrRankings;
+exports.getTeRankings = getTeRankings;
+exports.getPlayerRankings = getPlayerRankings;
