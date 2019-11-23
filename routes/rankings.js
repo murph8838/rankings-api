@@ -2,17 +2,19 @@ const express = require('express');
 const router = express.Router();
 const rankings = require('../modules/rankings');
 
-/* GET all rankings */
-router.get('/', function(req, res, next) {
-  let opts = null;
-  if (req.query) {
-    opts = {
-      scoring: req.query.scoring,
-      rankedBy: req.query.rankedBy,
-      playerName: req.query.playerName,
-    };
-  }
-  res.send(rankings.getRankings(opts));
+/* GET Position rankings */
+router.get('/:position', (req, res, next) => {
+    res.send(rankings.getRankings(req.params.position, '', req.query.rankedBy || ''));
+});
+
+/* GET Position Rankings for Scoring System */
+router.get('/:position/:scoring', (req, res, next) => {
+    res.send(rankings.getRankings(req.params.position, req.params.scoring, req.query.rankedBy || ''));
+});
+
+/* GET Player rankings */
+router.get('/player/:player', (req, res, next) => {
+    res.send(rankings.getPlayer(req.params.player));
 });
 
 module.exports = router;
